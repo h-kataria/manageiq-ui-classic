@@ -35,13 +35,13 @@ module Mixins
     end
 
     def show_props
-      drop_breadcrumb(:name => @ems.name + _(" (Properties)"), :url => show_link(@ems, :display => "props"))
+      drop_breadcrumb(@ems.name + _(" (Properties)"), :url => show_link(@ems, :display => "props"))
     end
 
     def show_ad_hoc_metrics
       @showtype = "ad_hoc_metrics"
       @lastaction = "show_ad_hoc_metrics"
-      drop_breadcrumb(:name => @ems.name + _(" (Ad hoc Metrics)"), :url => show_link(@ems))
+      drop_breadcrumb(@ems.name + _(" (Ad hoc Metrics)"))
     end
 
     def display_block_storage_managers
@@ -140,8 +140,7 @@ module Mixins
       set_form_vars
       @in_a_form = true
       session[:changed] = nil
-      drop_breadcrumb(:name => _("Add New %{table}") % {:table => ui_lookup(:table => table_name)},
-                      :url  => "/#{controller_name}/new")
+      drop_breadcrumb(_("Add New %{table}") % {:table => ui_lookup(:table => table_name)})
     end
 
     def edit
@@ -163,8 +162,7 @@ module Mixins
       set_form_vars
       @in_a_form = true
       session[:changed] = false
-      drop_breadcrumb(:name => _("Edit %{object_type} '%{object_name}'") % {:object_type => ui_lookup(:tables => table_name), :object_name => @ems.name},
-                      :url  => "/#{controller_name}/#{@ems.id}/edit")
+      drop_breadcrumb(_("Edit %{object_type} '%{object_name}'") % {:object_type => ui_lookup(:tables => table_name), :object_name => @ems.name})
     end
 
     def timeline_pressed
@@ -176,8 +174,7 @@ module Mixins
     def performance_pressed
       @showtype = "performance"
       @record = find_record_with_rbac(model, params[:id])
-      drop_breadcrumb(:name => _("%{name} Capacity & Utilization") % {:name => @record.name},
-                      :url  => show_link(@record, :refresh => "n", :display => "performance"))
+      drop_breadcrumb(_("%{name} Capacity & Utilization") % {:name => @record.name})
       perf_gen_init_options # Intialize options, charts are generated async
       javascript_redirect(polymorphic_path(@record, :display => "performance"))
     end
@@ -185,7 +182,7 @@ module Mixins
     def ad_hoc_metrics_pressed
       @showtype = "ad_hoc_metrics"
       @record = find_record_with_rbac(model, params[:id])
-      drop_breadcrumb(:name => @record.name + _(" (Ad hoc Metrics)"), :url => show_link(@record))
+      drop_breadcrumb(@record.name + _(" (Ad hoc Metrics)"), :url => show_link(@record))
       javascript_redirect(polymorphic_path(@record, :display => "ad_hoc_metrics"))
     end
 

@@ -51,7 +51,6 @@ class SecurityGroupController < ApplicationController
 
   def cancel_action(message)
     session[:edit] = nil
-    @breadcrumbs.pop if @breadcrumbs
     javascript_redirect(:action    => @lastaction,
                         :id        => @security_group.id,
                         :display   => session[:security_group_display],
@@ -82,7 +81,7 @@ class SecurityGroupController < ApplicationController
       else
         @in_a_form = true
         add_flash(_(SecurityGroup.unsupported_reason(:create)), :error)
-        drop_breadcrumb(:name => _("Add New Security Group "), :url => "/security_group/new")
+        drop_breadcrumb(_("Add New Security Group "))
         javascript_flash
       end
     end
@@ -101,7 +100,6 @@ class SecurityGroupController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs.pop if @breadcrumbs
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show_list")
@@ -146,7 +144,7 @@ class SecurityGroupController < ApplicationController
     assert_privileges("security_group_edit")
     @security_group = find_record_with_rbac(SecurityGroup, params[:id])
     @in_a_form = true
-    drop_breadcrumb(:name => _("Edit Security Group \"%{name}\"") % { :name => @security_group.name},
+    drop_breadcrumb(_("Edit Security Group \"%{name}\"") % { :name => @security_group.name},
                     :url  => "/security_group/edit/#{@security_group.id}")
   end
 
@@ -154,7 +152,7 @@ class SecurityGroupController < ApplicationController
     assert_privileges("security_group_new")
     @security_group = SecurityGroup.new
     @in_a_form = true
-    drop_breadcrumb(:name => _("Add New Security Group"), :url => "/security_group/new")
+    drop_breadcrumb(_("Add New Security Group"))
   end
 
   def update
@@ -228,7 +226,6 @@ class SecurityGroupController < ApplicationController
       session[:security_group][:task] = task
       initiate_wait_for_task(:task_id => task[:id], :action => "update_finished")
     else
-      @breadcrumbs.pop if @breadcrumbs
       session[:edit] = nil
       javascript_redirect(:action => "show", :id => security_group_id)
     end

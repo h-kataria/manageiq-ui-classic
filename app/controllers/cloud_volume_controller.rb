@@ -126,7 +126,6 @@ class CloudVolumeController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs&.pop
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show", :id => volume_id)
@@ -181,7 +180,6 @@ class CloudVolumeController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs&.pop
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show", :id => volume_id)
@@ -328,7 +326,6 @@ class CloudVolumeController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs&.pop
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show", :id => volume_id)
@@ -360,13 +357,13 @@ class CloudVolumeController < ApplicationController
     delete_cloud_volumes(volumes_to_delete) unless volumes_to_delete.empty?
 
     # refresh the list if applicable
-    if @lastaction == "show_list" && @breadcrumbs.last[:url].include?(@lastaction)
+    if @lastaction == "show_list"
       show_list
       @refresh_partial = "layouts/gtl"
     elsif @lastaction == "show" && @layout == "cloud_volume"
       @single_delete = true unless flash_errors? || flash_warnings?
     else
-      drop_breadcrumb(:name => 'dummy', :url => " ") # missing a bc to get correctly back so here's a dummy
+      drop_breadcrumb('dummy')
       flash_to_session
       redirect_to(previous_breadcrumb_url)
     end
@@ -425,7 +422,6 @@ class CloudVolumeController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs&.pop
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show", :id => @volume.id)
@@ -484,7 +480,6 @@ class CloudVolumeController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs&.pop
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show", :id => @volume.id)
@@ -541,7 +536,6 @@ class CloudVolumeController < ApplicationController
         :details => task.message
       }, :error)
     end
-    @breadcrumbs&.pop
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show", :id => @volume.id)

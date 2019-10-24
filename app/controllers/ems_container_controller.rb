@@ -33,7 +33,6 @@ class EmsContainerController < ApplicationController
   end
 
   def show
-    @breadcrumbs = [{:name => _('Containers Providers'), :url => '/ems_container/show_list'}]
     super
   end
 

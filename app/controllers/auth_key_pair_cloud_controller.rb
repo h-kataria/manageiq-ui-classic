@@ -90,7 +90,7 @@ class AuthKeyPairCloudController < ApplicationController
     set_form_vars
     @in_a_form = true
     session[:changed] = nil
-    drop_breadcrumb(:name => _("Add New Key Pair"), :url => "/auth_key_pair_cloud/new")
+    drop_breadcrumb(_("Add New Key Pair"))
   end
 
   def create
@@ -124,10 +124,7 @@ class AuthKeyPairCloudController < ApplicationController
       else
         @in_a_form = true
         add_flash(kls.is_available_now_error_message(:create_key_pair, ext_management_system, kls))
-        drop_breadcrumb(
-          :name => _("Add New Key Pair"),
-          :url  => "/auth_key_pair_cloud/new"
-        )
+        drop_breadcrumb(_("Add New Key Pair"))
         javascript_flash
       end
     when "validate"
@@ -158,7 +155,6 @@ class AuthKeyPairCloudController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs&.pop
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show_list")

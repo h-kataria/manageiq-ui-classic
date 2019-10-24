@@ -84,7 +84,7 @@ module ApplicationController::PolicySupport
       session[:edit] = @edit
     end
     @lastaction = "policy_sim"
-    drop_breadcrumb(:name => _("Policy Simulation"),
+    drop_breadcrumb(_("Policy Simulation"),
                     :url  => "/#{request.parameters["controller"]}/policy_sim?continue=true")
     session[:policies] = {} unless params[:continue] # Clear current policies, unless continuing previous simulation
     records = session[:tag_items] if records.empty? && session[:tag_items].present?

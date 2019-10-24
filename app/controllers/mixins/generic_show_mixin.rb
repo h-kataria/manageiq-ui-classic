@@ -67,11 +67,9 @@ module Mixins
       @sb[:summary_mode] = 'textual' if respond_to?(:dashboard_view)
 
       get_tagdata(@record) if @record.try(:taggings)
-      drop_breadcrumb({:name => breadcrumb_name(nil),
-                       :url  => "/#{controller_name}/show_list?page=#{@current_page}&refresh=y"},
-                      true)
+      drop_breadcrumb(breadcrumb_name(nil), true)
 
-      drop_breadcrumb(:name => _("%{name} (Summary)") % {:name => @record.name},
+      drop_breadcrumb(_("%{name} (Summary)") % {:name => @record.name},
                       :url  => show_link(@record))
       @showtype = "main"
     end
@@ -171,10 +169,8 @@ module Mixins
     def nested_list(model, options = {})
       title = options[:breadcrumb_title] || ui_lookup(:models => model.to_s)
 
-      drop_breadcrumb(:name => _("%{name} (Summary)") % {:name => @record.name},
-                      :url  => "/#{self.class.table_name}/show/#{@record.id}")
-      drop_breadcrumb(:name => _("%{name} (All %{title})") % {:name => @record.name, :title => title},
-                      :url  => show_link(@record, :display => @display))
+      drop_breadcrumb(_("%{name} (Summary)") % {:name => @record.name})
+      drop_breadcrumb(_("%{name} (All %{title})") % {:name => @record.name, :title => title})
 
       view_options = {:parent => @record}
       view_options.update(options.slice(:association, :parent_method, :where_clause, :named_scope, :clickable, :no_checkboxes))

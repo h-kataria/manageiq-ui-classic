@@ -109,7 +109,6 @@ class ServiceController < ApplicationController
       x_node_to_set = "#{nodetype}-#{id}"
     end
 
-    @breadcrumbs.clear if @breadcrumbs.present?
     build_accordions_and_trees(x_node_to_set)
 
     params.instance_variable_get(:@parameters).merge!(session[:exp_parms]) if session[:exp_parms] # Grab any explorer parm overrides
@@ -186,8 +185,8 @@ class ServiceController < ApplicationController
 
     @lastaction = 'generic_object'
     @item = @record.generic_objects.find { |e| e[:id] == params[:generic_object_id].to_i }
-    drop_breadcrumb(:name => _("%{name} (All Generic Objects)") % {:name => @record.name}, :url => show_link(@record, :display => 'generic_objects'))
-    drop_breadcrumb(:name => @item.name, :url => show_link(@record, :display => 'generic_objects', :generic_object_id => params[:generic_object_id]))
+    drop_breadcrumb(_("%{name} (All Generic Objects)") % {:name => @record.name})
+    drop_breadcrumb(@item.name)
     @view = get_db_view(GenericObject)
     @sb[:rec_id] = params[:generic_object_id]
     @record = @item
@@ -319,7 +318,7 @@ class ServiceController < ApplicationController
     case TreeBuilder.get_model_for_prefix(@nodetype)
     when "Service"
       show_record(id)
-      drop_breadcrumb(:name => _('Services'), :url => '/service/explorer') if @breadcrumbs.empty?
+      drop_breadcrumb(_('Services'))
       @right_cell_text = _("Service \"%{name}\"") % {:name => @record.name}
       @no_checkboxes = true
       @gtl_type = "grid"

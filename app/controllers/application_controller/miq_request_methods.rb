@@ -208,7 +208,6 @@ module ApplicationController::MiqRequestMethods
       )
       @explorer = session[:edit][:explorer] ? session[:edit][:explorer] : false
       @edit = session[:edit] = nil # Clear out session[:edit]
-      @breadcrumbs.pop if @breadcrumbs
       prov_request_cancel_submit_response
     elsif params[:button] == "submit" # Update or create the request from the workflow with the new options
       prov_req_submit
@@ -237,7 +236,7 @@ module ApplicationController::MiqRequestMethods
                 _("Add %{type}") % {:type => @edit[:prov_type]}
               end
 
-      drop_breadcrumb(:name => title, :url => "/vm/provision")
+      drop_breadcrumb(title, :url => "/vm/provision")
       @in_a_form = true
 
       #     render :action=>"show"
@@ -614,7 +613,6 @@ module ApplicationController::MiqRequestMethods
     end
 
     if request
-      @breadcrumbs.pop if @breadcrumbs
       org_controller = @edit[:org_controller]
       title = case org_controller
               when "vm"           then _("VMs")
@@ -781,7 +779,7 @@ module ApplicationController::MiqRequestMethods
       @options[:start_hour] = @options[:schedule_time].hour.to_s
       @options[:start_min] = @options[:schedule_time].min.to_s
     end
-    drop_breadcrumb(:name => @miq_request.description.to_s.split(' submitted')[0], :url => "/miq_request/show/#{@miq_request.id}")
+    drop_breadcrumb(@miq_request.description.to_s.split(' submitted')[0], :url => "/miq_request/show/#{@miq_request.id}")
     if @miq_request.workflow_class
       options = {}
       begin

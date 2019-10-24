@@ -67,7 +67,7 @@ class FloatingIpController < ApplicationController
       else
         @in_a_form = true
         add_flash(_(FloatingIp.unsupported_reason(:create)), :error)
-        drop_breadcrumb(:name => _("Add New Floating IP "), :url => "/floating_ip/new")
+        drop_breadcrumb(_("Add New Floating IP "))
         javascript_flash
       end
     end
@@ -84,7 +84,6 @@ class FloatingIpController < ApplicationController
                                                                                 :details => task.message}, :error)
     end
 
-    @breadcrumbs&.pop
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show_list")
@@ -114,15 +113,14 @@ class FloatingIpController < ApplicationController
     assert_privileges("floating_ip_edit")
     @floating_ip = find_record_with_rbac(FloatingIp, params[:id])
     @in_a_form = true
-    drop_breadcrumb(:name => _("Associate Floating IP \"%{address}\"") % { :address => @floating_ip.address },
-                    :url  => "/floating_ip/edit/#{@floating_ip.id}")
+    drop_breadcrumb(_("Associate Floating IP \"%{address}\"") % {:address => @floating_ip.address })
   end
 
   def new
     assert_privileges("floating_ip_new")
     @floating_ip = FloatingIp.new
     @in_a_form = true
-    drop_breadcrumb(:name => _("Add New Floating IP"), :url => "/floating_ip/new")
+    drop_breadcrumb(_("Add New Floating IP"))
   end
 
   def update
@@ -171,7 +169,6 @@ class FloatingIpController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs&.pop
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show", :id => floating_ip_id)

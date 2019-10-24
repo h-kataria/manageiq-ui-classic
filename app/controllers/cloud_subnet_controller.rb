@@ -51,7 +51,7 @@ class CloudSubnetController < ApplicationController
     assert_privileges("cloud_network_show_list")
 
     @in_a_form = true
-    drop_breadcrumb(:name => _("Add New Subnet"), :url => "/cloud_subnet/new")
+    drop_breadcrumb(_("Add New Subnet"))
   end
 
   def create
@@ -82,7 +82,7 @@ class CloudSubnetController < ApplicationController
         else
           @in_a_form = true
           add_flash(_(CloudSubnet.unsupported_reason(:create)), :error)
-          drop_breadcrumb(:name => _("Add new Cloud Subnet "), :url => "/subnet/new")
+          drop_breadcrumb(_("Add new Cloud Subnet "))
           javascript_flash
         end
       rescue ArgumentError => err
@@ -106,7 +106,6 @@ class CloudSubnetController < ApplicationController
                 { :name => subnet_name, :details => task.message }, :error)
     end
 
-    @breadcrumbs&.pop
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show_list")
@@ -140,7 +139,7 @@ class CloudSubnetController < ApplicationController
       flash_to_session
       javascript_redirect(:action => 'show_list')
     else
-      drop_breadcrumb(:name => 'dummy', :url => " ") # missing a bc to get correctly back so here's a dummy
+      drop_breadcrumb('dummy')
       flash_to_session
       redirect_to(previous_breadcrumb_url)
     end
@@ -151,10 +150,7 @@ class CloudSubnetController < ApplicationController
     assert_privileges("cloud_subnet_edit")
     @subnet = find_record_with_rbac(CloudSubnet, params[:id])
     @in_a_form = true
-    drop_breadcrumb(
-      :name => _("Edit Subnet \"%{name}\"") % {:name => @subnet.name},
-      :url  => "/cloud_subnet/edit/#{@subnet.id}"
-    )
+    drop_breadcrumb(_("Edit Subnet \"%{name}\"") % {:name => @subnet.name})
   end
 
   def update

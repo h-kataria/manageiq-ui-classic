@@ -20,10 +20,7 @@ class VmCloudController < ApplicationController
     @vm.cloud_tenant.cloud_volumes.where(:status => 'available').each { |v| @volume_choices[v.name] = v.id }
 
     @in_a_form = true
-    drop_breadcrumb(
-      :name => _("Attach Cloud Volume to Instance \"%{instance_name}\"") % {:instance_name => @vm.name},
-      :url  => "/vm_cloud/attach"
-    )
+    drop_breadcrumb(_("Attach Cloud Volume to Instance \"%{instance_name}\"") % {:instance_name => @vm.name})
     @in_a_form = true
     @refresh_partial = "vm_common/attach"
   end
@@ -41,10 +38,7 @@ class VmCloudController < ApplicationController
     end
 
     @in_a_form = true
-    drop_breadcrumb(
-      :name => _("Detach Cloud Volume from Instance \"%{instance_name}\"") % {:instance_name => @vm.name},
-      :url  => "/vm_cloud/detach"
-    )
+    drop_breadcrumb(_("Detach Cloud Volume from Instance \"%{instance_name}\"") % {:instance_name => @vm.name})
     @in_a_form = true
     @refresh_partial = "vm_common/detach"
   end
@@ -95,7 +89,6 @@ class VmCloudController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs.pop if @breadcrumbs
     session[:edit] = nil
     flash_to_session
     @record = @sb[:action] = nil
@@ -148,7 +141,6 @@ class VmCloudController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs.pop if @breadcrumbs
     session[:edit] = nil
     flash_to_session
     @record = @sb[:action] = nil
@@ -237,10 +229,6 @@ class VmCloudController < ApplicationController
 
   def tagging_explorer_controller?
     @explorer
-  end
-
-  def skip_breadcrumb?
-    breadcrumb_prohibited_for_action?
   end
 
   def breadcrumbs_options

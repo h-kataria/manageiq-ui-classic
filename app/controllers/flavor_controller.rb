@@ -16,7 +16,7 @@ class FlavorController < ApplicationController
 
   def new
     assert_privileges('flavor_create')
-    drop_breadcrumb(:name => _("Add a new Flavor"), :url => "/flavor/new")
+    drop_breadcrumb(_("Add a new Flavor"))
     @in_a_form = true
     @id = 'new'
   end

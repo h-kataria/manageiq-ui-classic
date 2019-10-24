@@ -24,7 +24,7 @@ class HostController < ApplicationController
             when "os_info" then _("OS Information")
             when "devices" then _("Devices")
             end
-    drop_breadcrumb(:name => "#{@record.name} (#{title})",
+    drop_breadcrumb("#{@record.name} (#{title})",
                     :url  => show_link(@record, :display => @display))
   end
 
@@ -41,7 +41,7 @@ class HostController < ApplicationController
                     @sa_tree = TreeBuilderStorageAdapters.new(:sa_tree, @sb, true, :root => @record)
                     [_("Storage Adapters"), :sa_tree]
                   end
-    drop_breadcrumb(:name => "#{@record.name} (#{title})",
+    drop_breadcrumb("#{@record.name} (#{title})",
                     :url  => show_link(@record, :display => @display))
     self.x_active_tree = tree
   end
@@ -131,7 +131,7 @@ class HostController < ApplicationController
       @host = find_record_with_rbac(Host, params[:id])
       @in_a_form = true
       session[:changed] = false
-      drop_breadcrumb(:name => _("Edit Host '%{name}'") % {:name => @host.name}, :url => "/host/edit/#{@host.id}")
+      drop_breadcrumb(_("Edit Host '%{name}'") % {:name => @host.name})
       @title = _("Info/Settings")
     else # if editing credentials for multi host
       @title = _("Credentials/Settings")
@@ -159,7 +159,6 @@ class HostController < ApplicationController
     case params[:button]
     when "cancel"
       session[:edit] = nil # clean out the saved info
-      @breadcrumbs.pop if @breadcrumbs
       if !session[:host_items].nil?
         flash_to_session(_("Edit of credentials for selected Hosts / Nodes was cancelled by the user"))
         javascript_redirect(:action => @lastaction, :display => session[:host_display])
@@ -177,7 +176,6 @@ class HostController < ApplicationController
         set_record_vars(valid_host, :validate) # Set the record variables, but don't save
         if valid_record? && set_record_vars(@host) && @host.save
           flash_to_session(_("Host / Node \"%{name}\" was saved") % {:name => @host.name})
-          @breadcrumbs.pop if @breadcrumbs
           AuditEvent.success(build_saved_audit_hash_angular(old_host_attributes, @host, false))
           if @lastaction == 'show_list'
             javascript_redirect(:action => "show_list")
@@ -190,7 +188,7 @@ class HostController < ApplicationController
           @host.errors.each do |field, msg|
             add_flash("#{field.to_s.capitalize} #{msg}", :error)
           end
-          drop_breadcrumb(:name => _("Edit Host '%{name}'") % {:name => @host.name}, :url => "/host/edit/#{@host.id}")
+          drop_breadcrumb(_("Edit Host '%{name}'") % {:name => @host.name})
           @in_a_form = true
           javascript_flash
         end
@@ -205,7 +203,7 @@ class HostController < ApplicationController
           flash_to_session(_("Credentials/Settings saved successfully"))
           javascript_redirect(:action => 'show_list')
         else
-          drop_breadcrumb(:name => _("Edit Host '%{name}'") % {:name => @host.name}, :url => "/host/edit/#{@host.id}")
+          drop_breadcrumb(_("Edit Host '%{name}'") % {:name => @host.name})
           @in_a_form = true
           javascript_flash
         end

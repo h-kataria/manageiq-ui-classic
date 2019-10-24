@@ -37,8 +37,7 @@ module ReportController::Menus
     end
     @sb[:node_clicked] = (params[:node_clicked] == "1")
 
-    @breadcrumbs = []
-    drop_breadcrumb(:name => "Edit Report menus for '#{session[:role_choice]}'")
+    drop_breadcrumb("Edit Report menus for '#{session[:role_choice]}'")
     if session[:node_selected].index(':').nil? || params[:button] == "reset"
       edit_folder
       replace_right_cell if params[:node_clicked]

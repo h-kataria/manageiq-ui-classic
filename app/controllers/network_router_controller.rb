@@ -55,10 +55,7 @@ class NetworkRouterController < ApplicationController
     assert_privileges("cloud_tenant_show_list")
 
     @in_a_form = true
-    drop_breadcrumb(
-      :name => _("Add New Network Router"),
-      :url  => "/network_router/new"
-    )
+    drop_breadcrumb(_("Add New Network Router"))
   end
 
   def create
@@ -96,7 +93,6 @@ class NetworkRouterController < ApplicationController
                 {:name => router_name, :details => task.message}, :error)
     end
 
-    @breadcrumbs.pop if @breadcrumbs
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show_list")
@@ -108,10 +104,7 @@ class NetworkRouterController < ApplicationController
     @router = find_record_with_rbac(NetworkRouter, params[:id])
     @in_a_form = true
     # needs to be initializes for haml
-    drop_breadcrumb(
-      :name => _("Edit Router \"%{name}\"") % {:name => @router.name},
-      :url  => "/network_router/edit/#{@router.id}"
-    )
+    drop_breadcrumb(_("Edit Router \"%{name}\"") % {:name => @router.name})
   end
 
   def update
@@ -178,10 +171,7 @@ class NetworkRouterController < ApplicationController
         redirect_to(:action => "show", :id => params[:id])
       end
     else
-      drop_breadcrumb(
-        :name => _("Add Interface to Router \"%{name}\"") % {:name => @router.name},
-        :url  => "/network_router/add_interface/#{@router.id}"
-      )
+      drop_breadcrumb(_("Add Interface to Router \"%{name}\"") % {:name => @router.name})
     end
   end
 
@@ -218,7 +208,6 @@ class NetworkRouterController < ApplicationController
         add_flash(_("Add Interface not supported by Router \"%{name}\"") % {
           :name => @router.name
         }, :error)
-        @breadcrumbs.pop if @breadcrumbs
         javascript_flash
       end
     end
@@ -244,7 +233,6 @@ class NetworkRouterController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs.pop if @breadcrumbs
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show", :id => router_id)
@@ -271,10 +259,7 @@ class NetworkRouterController < ApplicationController
         redirect_to(:action => "show", :id => params[:id])
       end
     else
-      drop_breadcrumb(
-        :name => _("Remove Interface from Router \"%{name}\"") % {:name => @router.name},
-        :url  => "/network_router/remove_interface/#{@router.id}"
-      )
+      drop_breadcrumb(_("Remove Interface from Router \"%{name}\"") % {:name => @router.name})
     end
   end
 
@@ -311,7 +296,6 @@ class NetworkRouterController < ApplicationController
         add_flash(_("Remove Interface not supported by Router \"%{name}\"") % {
           :name => @router.name
         }, :error)
-        @breadcrumbs.pop if @breadcrumbs
         javascript_flash
       end
     end
@@ -337,7 +321,6 @@ class NetworkRouterController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs.pop if @breadcrumbs
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show", :id => router_id)

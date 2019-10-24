@@ -31,8 +31,7 @@ module Mixins
           if @explorer
             retire
           else
-            drop_breadcrumb(:name => bc_msg,
-                            :url  => "/#{session[:controller]}/retire")
+            drop_breadcrumb(bc_msg)
             javascript_redirect(:controller => rec_cls, :action => 'retire') # redirect to build the retire screen
           end
         end
@@ -91,8 +90,7 @@ module Mixins
             return
           end
           session[:changed] = @changed = false
-          drop_breadcrumb(:name => _("Retire %{name}") % {:name => ui_lookup(:models => kls.to_s)},
-                          :url  => "/#{session[:controller]}/retire")
+          drop_breadcrumb(_("Retire %{name}") % {:name => ui_lookup(:models => kls.to_s)})
           session[:cat] = nil # Clear current category
           build_targets_hash(@retireitems)
           @view = get_db_view(kls) # Instantiate the MIQ Report view object

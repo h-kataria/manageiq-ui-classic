@@ -61,7 +61,6 @@ class HostAggregateController < ApplicationController
       else
         @in_a_form = true
         add_flash(_("Host Aggregates not supported by chosen provider"), :error)
-        @breadcrumbs.pop if @breadcrumbs
         javascript_flash
       end
     end
@@ -80,7 +79,6 @@ class HostAggregateController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs.pop if @breadcrumbs
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show_list")
@@ -128,7 +126,6 @@ class HostAggregateController < ApplicationController
         add_flash(_("Update aggregate not supported by Host Aggregate \"%{name}\"") % {
           :name => @host_aggregate.name
         }, :error)
-        @breadcrumbs.pop if @breadcrumbs
         javascript_flash
       end
     end
@@ -148,7 +145,6 @@ class HostAggregateController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs.pop if @breadcrumbs
     session[:edit] = nil
     session[:flash_msgs] = @flash_array.dup if @flash_array
 
@@ -253,7 +249,6 @@ class HostAggregateController < ApplicationController
         add_flash(_("Add Host not supported by Host Aggregate \"%{name}\"") % {
           :name => @host_aggregate.name
         }, :error)
-        @breadcrumbs.pop if @breadcrumbs
         javascript_flash
       end
     end
@@ -279,7 +274,6 @@ class HostAggregateController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs.pop if @breadcrumbs
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show", :id => host_aggregate_id)
@@ -346,7 +340,6 @@ class HostAggregateController < ApplicationController
         add_flash(_("Remove Host not supported by Host Aggregate \"%{name}\"") % {
           :name => @host_aggregate.name
         }, :error)
-        @breadcrumbs.pop if @breadcrumbs
         javascript_flash
       end
     end
@@ -372,7 +365,6 @@ class HostAggregateController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs.pop if @breadcrumbs
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show", :id => host_aggregate_id)
@@ -380,7 +372,6 @@ class HostAggregateController < ApplicationController
 
   def cancel_action(message)
     session[:edit] = nil
-    @breadcrumbs.pop if @breadcrumbs
     javascript_redirect(:action    => @lastaction,
                         :id        => @host_aggregate.id,
                         :display   => session[:host_aggregate_display],

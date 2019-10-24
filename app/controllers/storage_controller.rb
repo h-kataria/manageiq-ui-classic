@@ -256,7 +256,6 @@ class StorageController < ApplicationController
   end
 
   def explorer
-    @breadcrumbs = []
     @explorer = true
     @lastaction = "explorer"
 

@@ -457,11 +457,11 @@ class ApplicationController < ActionController::Base
     if !params[:show].nil? || !params[:x_show].nil?
       id = params[:show] ? params[:show] : params[:x_show]
       @item = @record.event_logs.find(id)
-      drop_breadcrumb(:name => @record.name + " (#{bc_text})", :url => "/#{obj}/event_logs/#{@record.id}?page=#{@current_page}")
-      drop_breadcrumb(:name => @item.name, :url => "/#{obj}/show/#{@record.id}?show=#{@item.id}")
+      drop_breadcrumb(@record.name + " (#{bc_text})")
+      drop_breadcrumb(@item.name)
       show_item
     else
-      drop_breadcrumb(:name => @record.name + " (#{bc_text})", :url => "/#{obj}/event_logs/#{@record.id}")
+      drop_breadcrumb(@record.name + " (#{bc_text})")
       show_details(EventLog, :association => "event_logs")
     end
   end
@@ -938,30 +938,10 @@ class ApplicationController < ActionController::Base
   # Handle the breadcrumb array by either adding, or resetting to, the passed in breadcrumb
   # if replace = true, only add this bc if it was already there
   def drop_breadcrumb(new_bc, onlyreplace = false)
-    # if the breadcrumb is in the array, remove it and all below by counting how many to pop
-    return if skip_breadcrumb?
-    remove = 0
-    @breadcrumbs.each do |bc|
-      if remove.positive? # already found a match,
-        remove += 1 #   increment pop counter
-
-      # Check for a name match BEFORE the first left paren "(" or a url match BEFORE the last slash "/"
-      elsif bc[:name].to_s.gsub(/\(.*/, "").rstrip == new_bc[:name].to_s.gsub(/\(.*/, "").rstrip ||
-            bc[:url].to_s.gsub(%r{\/.?$}, "") == new_bc[:url].to_s.gsub(%r{\/.?$}, "")
-        remove = 1
-      end
-    end
-    remove.times { @breadcrumbs.pop } # remove found element and any lower elements
-    if onlyreplace
-      @breadcrumbs.push(new_bc) if remove.positive? # only add it if something was removed
-    else
-      @breadcrumbs.push(new_bc)
-    end
-    @breadcrumbs.push(new_bc) if onlyreplace && @breadcrumbs.empty?
-    @title = if (@lastaction == "registry_items" || @lastaction == "filesystems" || @lastaction == "files") && new_bc[:name].length > 50
-               new_bc [:name].slice(0..50) + "..." # Set the title to be the new breadcrumb
+    @title = if (@lastaction == "registry_items" || @lastaction == "filesystems" || @lastaction == "files") && new_bc.length > 50
+               new_bc.slice(0..50) + "..." # Set the title to be the new breadcrumb
              else
-               new_bc [:name] # Set the title to be the new breadcrumb
+               new_bc # Set the title to be the new breadcrumb
              end
 
     # add @search_text to title for gtl screens only
@@ -2022,10 +2002,6 @@ class ApplicationController < ActionController::Base
 
   def flip_sort_direction(direction)
     direction == "ASC" ? "DESC" : "ASC" # flip ascending/descending
-  end
-
-  def skip_breadcrumb?
-    false
   end
 
   def restful?

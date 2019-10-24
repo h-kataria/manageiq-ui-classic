@@ -62,12 +62,11 @@ class MiqRequestController < ApplicationController
 
   # Show the main Requests list view
   def show_list
-    @breadcrumbs = []
     bc_name = _("Requests")
     @request_tab = params[:typ] if params[:typ] # set this to be used to identify which Requests subtab was clicked
     @layout = layout_from_tab_name(@request_tab)
 
-    drop_breadcrumb(:name => bc_name, :url => "/miq_request/show_list?typ=#{@request_tab}")
+    drop_breadcrumb(bc_name)
     @lastaction = "show_list"
     @gtl_url = "/show_list"
 
@@ -104,7 +103,7 @@ class MiqRequestController < ApplicationController
       @no_checkboxes = true
       @showlinks = true
       @view, @pages = get_view(MiqProvision, :named_scope => [[:with_miq_request_id, @miq_request.id]]) # Get all requests
-      drop_breadcrumb(:name => _("Provisioned VMs [%{description}]") % {:description => @miq_request.description},
+      drop_breadcrumb(_("Provisioned VMs [%{description}]") % {:description => @miq_request.description},
                       :url  => "/miq_request/show/#{@miq_request.id}?display=#{@display}")
     end
 
@@ -143,9 +142,9 @@ class MiqRequestController < ApplicationController
       @edit[:stamp_typ] = params[:typ] == 'a' ? 'approve' : 'deny'
       show
       if @edit[:stamp_typ] == "approve"
-        drop_breadcrumb(:name => _("Request Approval"), :url => "/miq_request/stamp")
+        drop_breadcrumb(_("Request Approval"))
       else
-        drop_breadcrumb(:name => _("Request Denial"), :url => "/miq_request/stamp")
+        drop_breadcrumb(_("Request Denial"))
 
       end
       render :action => "show"
@@ -187,7 +186,7 @@ class MiqRequestController < ApplicationController
       # couldn't set this in new hash becasue that's being set by model
       @edit[:current][:description] = _("Copy of %{description}") % {:description => org_req.description}
       session[:changed] = true # Turn on the submit button
-      drop_breadcrumb(:name => _("Copy of %{typ} Request") % {:typ => org_req.request_type_display})
+      drop_breadcrumb(_("Copy of %{typ} Request") % {:typ => org_req.request_type_display})
       @in_a_form = true
     end
     render :action => "prov_edit"

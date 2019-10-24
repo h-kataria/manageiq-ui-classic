@@ -47,10 +47,7 @@ class CloudObjectStoreContainerController < ApplicationController
       @storage_manager = find_record_with_rbac(ExtManagementSystem, params[:storage_manager_id])
     end
     @provider_regions = retrieve_provider_regions
-    drop_breadcrumb(
-      :name => _("Add New Cloud Object Store Container"),
-      :url  => "/cloud_object_store_container/new"
-    )
+    drop_breadcrumb(_("Add New Cloud Object Store Container"))
   end
 
   def create

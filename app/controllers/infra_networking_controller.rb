@@ -135,7 +135,7 @@ class InfraNetworkingController < ApplicationController
     return unless init_show_variables('switch')
 
     @lastaction = "custom_button_events"
-    drop_breadcrumb(:name => _("%{name} (Custom Button Events)") % {:name => @record.name},
+    drop_breadcrumb(_("%{name} (Custom Button Events)") % {:name => @record.name},
                     :url  => "/infra_networking/custom_button_events/#{@record.id}")
     show_details(CustomButtonEvent, :association => "custom_button_events", :clickable => false)
   end

@@ -30,14 +30,13 @@ class MiqAeToolsController < ApplicationController
   end
 
   def log
-    @breadcrumbs = []
     @log = $miq_ae_logger.contents if $miq_ae_logger
     add_flash(_("Logs for this %{product} Server are not available for viewing") % {:product => Vmdb::Appliance.PRODUCT_NAME}, :warning) if @log.blank?
     @lastaction = "log"
     @layout = "miq_ae_logs"
     @msg_title = "AE"
     @download_action = "fetch_log"
-    drop_breadcrumb(:name => _("Log"), :url => "/miq_ae_tools/log")
+    drop_breadcrumb(_("Log"))
     render :action => "show"
   end
 
@@ -83,8 +82,7 @@ class MiqAeToolsController < ApplicationController
 
   def import_export
     @in_a_form = true
-    @breadcrumbs = []
-    drop_breadcrumb(:name => _("Import / Export"), :url => "/miq_ae_tools/import_export")
+    drop_breadcrumb(_("Import / Export"))
     @lastaction = "import_export"
     @layout = "miq_ae_export"
     @importable_domain_options = []

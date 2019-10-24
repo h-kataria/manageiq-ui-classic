@@ -141,7 +141,7 @@ module ApplicationController::Performance
         :url  => url
       )
     else
-      drop_breadcrumb(:name => _("%{name} Capacity & Utilization") % {:name => name}, :url => url)
+      drop_breadcrumb(_("%{name} Capacity & Utilization") % {:name => name}, :url => url)
     end
   end
 

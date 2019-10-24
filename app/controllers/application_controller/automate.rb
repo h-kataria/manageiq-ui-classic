@@ -118,8 +118,7 @@ module ApplicationController::Automate
     custom_button_redirect = params[:button] == 'simulate' || params[:simulate] == 'simulate'
     assert_privileges(custom_button_redirect ? 'ab_button_simulate' : 'miq_ae_class_simulation')
     @explorer = true
-    @breadcrumbs = []
-    drop_breadcrumb(:name => _("Resolve"), :url => "/miq_ae_tools/resolve")
+    drop_breadcrumb(_("Resolve"))
     @lastaction = "resolve"
     @right_cell_text = _("Simulation")
 

@@ -66,10 +66,7 @@ class CloudTenantController < ApplicationController
         @ems_choices[tenant_choice_name] = tenant_choice_id
       end
     end
-    drop_breadcrumb(
-      :name => _("Add New Cloud Tenant"),
-      :url  => "/cloud_tenant/new"
-    )
+    drop_breadcrumb(_("Add New Cloud Tenant"))
   end
 
   def create
@@ -111,7 +108,6 @@ class CloudTenantController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs&.pop
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show_list")
@@ -165,7 +161,6 @@ class CloudTenantController < ApplicationController
       }, :error)
     end
 
-    @breadcrumbs&.pop
     session[:edit] = nil
     flash_to_session
     javascript_redirect(:action => "show", :id => tenant_id)

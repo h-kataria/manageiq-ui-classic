@@ -60,7 +60,7 @@ module Mixins
           update_ems.errors.each do |field, msg|
             add_flash("#{field.to_s.capitalize} #{msg}", :error)
           end
-          drop_breadcrumb(:name => _("Edit %{table} '%{name}'") %
+          drop_breadcrumb(_("Edit %{table} '%{name}'") %
             {:table => ui_lookup(:table => table_name), :name => update_ems.name},
                           :url  => "/#{table_name}/edit/#{update_ems.id}")
           @in_a_form = true
@@ -219,7 +219,7 @@ module Mixins
             add_flash("#{ems.class.human_attribute_name(field, :ui => true)} #{msg}", :error)
           end
 
-          drop_breadcrumb(:name => _("Add New %{tables}") % {:tables => ui_lookup(:tables => table_name)},
+          drop_breadcrumb(_("Add New %{tables}") % {:tables => ui_lookup(:tables => table_name)},
                           :url  => new_ems_path)
           javascript_flash
         end

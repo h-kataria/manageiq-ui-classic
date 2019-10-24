@@ -8,9 +8,6 @@ class CloudTenantDashboardController < ApplicationController
   after_action :set_session_data
 
   def show
-    if params[:id].nil?
-      @breadcrumbs.clear
-    end
   end
 
   def data

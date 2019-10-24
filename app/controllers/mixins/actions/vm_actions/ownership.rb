@@ -47,7 +47,7 @@ module Mixins
             @sb[:explorer] = true
             ownership(@origin_ownership_items)
           elsif role_allows?(:feature => "vm_ownership")
-            drop_breadcrumb(:name => _("Set Ownership"), :url => "/vm_common/ownership")
+            drop_breadcrumb(_("Set Ownership"))
             # redirect to build the ownership screen
             javascript_redirect(:controller => controller, :action => 'ownership', :rec_ids => @origin_ownership_items, :escape => false)
           else
@@ -81,7 +81,7 @@ module Mixins
         def ownership(ownership_ids = [])
           @sb[:explorer] = true if @explorer
           @in_a_form = @ownershipedit = true
-          drop_breadcrumb(:name => _("Set Ownership"), :url => "/vm_common/ownership")
+          drop_breadcrumb(_("Set Ownership"))
           ownership_ids = params[:rec_ids] if params[:rec_ids]
           @origin_ownership_items = ownership_ids
           build_ownership_info(ownership_ids)
